@@ -1,6 +1,9 @@
 package com.devlomose.springboot.data.jpa.app.models.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -18,12 +21,18 @@ public class Cliente implements Serializable {
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     private Long id;
 
+    @NotEmpty
     private String nombre;
+
+    @NotEmpty
     private String apellido;
 
+    @NotEmpty
+    @Email
     @Column(name = "correo") //<- esto para modificar el nombre de la columna en la tabla
     private String email;
 
+    @NotNull
     @Temporal(TemporalType.DATE)
     @Column(name="created_at",
             nullable = false)
@@ -34,11 +43,6 @@ public class Cliente implements Serializable {
             updatable = true,
             columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private Date updatedAt;
-
-    @PrePersist
-    public void prePersist(){
-        createdAt = new Date();
-    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
