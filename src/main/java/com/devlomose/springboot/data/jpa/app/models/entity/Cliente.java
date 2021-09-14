@@ -35,6 +35,11 @@ public class Cliente implements Serializable {
             columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private Date updatedAt;
 
+    @PrePersist
+    public void prePersist(){
+        createdAt = new Date();
+    }
+
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
