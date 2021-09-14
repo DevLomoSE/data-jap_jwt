@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * ClienteController at: src/main/java/com/devlomose/springboot/data/jpa/app/controllers
@@ -28,6 +30,24 @@ public class ClienteController {
         model.addAttribute("titulo", "Listado Cliente");
         model.addAttribute("clientes", clienteDAO.findAll());
         return "clientes/listar";
+    }
+
+    @GetMapping("/form")
+    public String createForm(Map<String, Object> model){
+        Cliente cliente = new Cliente();
+
+        model.put("titulo", "Crear Cliente");
+        model.put("cliente", cliente);
+
+        return "clientes/form";
+
+    }
+
+    @PostMapping("/form")
+    public String saveCliente(Cliente cliente){
+        clienteDAO.save(cliente);
+
+        return "redirect:/cliente/listado";
     }
 
 }
