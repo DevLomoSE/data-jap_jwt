@@ -7,9 +7,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 
 import javax.validation.Valid;
 import java.util.Map;
@@ -20,6 +19,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/cliente")
+@SessionAttributes("cliente")
 public class ClienteController {
 
     @Autowired
@@ -45,14 +45,29 @@ public class ClienteController {
     }
 
     @PostMapping("/form")
-    public String saveCliente(@Valid Cliente cliente, BindingResult result, Model model){
+    public String saveCliente(@Valid Cliente cliente, BindingResult result, Model model, SessionStatus sessionStatus){
         if(result.hasErrors()){
             model.addAttribute("titulo", "Crear Cliente");
             return "clientes/form";
         }
 
         clienteDAO.save(cliente);
+        sessionStatus.setComplete();
         return "redirect:/cliente/listado";
+    }
+
+    @GetMapping("/form/{id}")
+    public String editClient(@PathVariable(value="id") Long id, Map<String, Object> model){
+        Cliente cliente = null;
+        if(id > 0){
+            cliente = clienteDAO.findById(id);
+        }else{
+            return "redirect:clientes/listado";
+        }
+
+        model.put("cliente", cliente);
+        model.put("titulo", "Editar cliente");
+        return "clientes/form";
     }
 
 }

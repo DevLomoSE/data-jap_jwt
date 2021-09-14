@@ -28,6 +28,15 @@ public class ClienteDAOImplement implements ClienteDAO{
     @Override
     @Transactional
     public void save(Cliente cliente) {
-        em.persist(cliente);
+        if(cliente.getId() != null && cliente.getId() > 0){
+            em.merge(cliente);
+        }else{
+            em.persist(cliente);
+        }
+    }
+
+    @Override
+    public Cliente findById(Long id) {
+        return em.find(Cliente.class, id);
     }
 }

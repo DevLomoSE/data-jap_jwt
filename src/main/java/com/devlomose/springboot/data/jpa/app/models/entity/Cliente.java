@@ -1,9 +1,12 @@
 package com.devlomose.springboot.data.jpa.app.models.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -36,6 +39,7 @@ public class Cliente implements Serializable {
     @Temporal(TemporalType.DATE)
     @Column(name="created_at",
             nullable = false)
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
     private Date createdAt;
 
     @Temporal(TemporalType.DATE)

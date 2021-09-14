@@ -13,15 +13,16 @@
   <div class="mt-2 container">
     <h1 class="h1 text-secondary text-center" th:text="${titulo}">titulo</h1>
     <hr>
-    <a th:href="@{/cliente/form}">Crear</a>
-    <table class="table table-bordered table-striped table-hover">
-      <thead>
+    <a class="btn btn-primary btn-xs" th:href="@{/cliente/form}">Crear</a>
+    <table class="mt-2 table table-bordered table-striped table-hover">
+      <thead class="table-dark">
         <tr>
           <th>Id</th>
           <th>Nombre</th>
           <th>Apellido</th>
           <th>Email</th>
           <th>Fecha</th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
@@ -31,6 +32,11 @@
           <th th:text="${cliente.apellido}"></th>
           <th th:text="${cliente.email}"></th>
           <th th:text="${cliente.createdAt}"></th>
+          <th>
+            <span>
+              <a class="btn btn-warning btn-xs" th:href="@{/cliente/form/} + ${cliente.id}">Editar</a>
+            </span>
+          </th>
         </tr>
       </tbody>
     </table>

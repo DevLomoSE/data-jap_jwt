@@ -36,8 +36,8 @@
         <div class="mb-2 form-group row">
             <label for="email" class="col-sm-2 col-form-label">Correo electrónico</label>
             <div class="col-sm-5">
-                <input th:field="*{email}" type="email" class="form-control"
-                       id="text" placeholder="Correo" th:errorClass="'form-control alert-danger'">
+                <input th:field="*{email}" type="text" class="form-control"
+                       id="email" placeholder="Correo" th:errorClass="'form-control alert-danger'">
                 <small class="form-text text-danger" th:if="${#fields.hasErrors('email')}"
                        th:errors="*{email}"></small>
             </div>
