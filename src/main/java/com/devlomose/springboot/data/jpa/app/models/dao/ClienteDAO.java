@@ -11,4 +11,6 @@ import java.util.List;
 public interface ClienteDAO {
 
     public List<Cliente> findAll();
+
+    public void save(Cliente cliente);
 }
