@@ -12,7 +12,7 @@ import java.util.List;
  * ClienteDAOImplement at: src/main/java/com/devlomose/springboot/data/jpa/app/models/dao
  * Created by @DevLomoSE at 14/9/21 10:39.
  */
-@Repository
+@Repository("clienteDAOJPA")
 public class ClienteDAOImplement implements ClienteDAO{
 
     @PersistenceContext
