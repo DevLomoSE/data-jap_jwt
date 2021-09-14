@@ -1,0 +1,2 @@
+INSERT INTO clientes (nombre, apellido, correo, created_at, updated_at) VALUES ('José Andres', 'Guzmán', 'jose@correo.com', now(), now())
+INSERT INTO clientes (nombre, apellido, correo, created_at, updated_at) VALUES ('Jonathan Cristobal', 'Guzmán Guadarrama', 'jonathan@correo.com', now(), now())
