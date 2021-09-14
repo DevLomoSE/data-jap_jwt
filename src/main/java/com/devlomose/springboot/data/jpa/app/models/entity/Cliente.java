@@ -21,7 +21,7 @@ public class Cliente implements Serializable {
     private String nombre;
     private String apellido;
 
-    @Column(name = "coreo") //<- esto para modificar el nombre de la columna en la tabla
+    @Column(name = "correo") //<- esto para modificar el nombre de la columna en la tabla
     private String email;
 
     @Temporal(TemporalType.DATE)
