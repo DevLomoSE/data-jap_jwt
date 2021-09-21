@@ -31,13 +31,16 @@
             <th th:text="${cliente.email}"></th>
             <th th:text="${cliente.createdAt}"></th>
             <th>
-            <span>
-              <a class="btn btn-warning btn-xs" th:href="@{/cliente/form/} + ${cliente.id}">Editar</a>
-            </span>
               <span>
-              <a class="btn btn-danger btn-xs" th:href="@{/cliente/eliminar/} + ${cliente.id}"
-                 onclick="return confirm('Estás seguro que quieres eliminar?')">Eliminar</a>
-            </span>
+                <a class="btn btn-warning btn-xs" th:href="@{/cliente/form/} + ${cliente.id}">Editar</a>
+              </span>
+                <span>
+                <a class="btn btn-danger btn-xs" th:href="@{/cliente/eliminar/} + ${cliente.id}"
+                   onclick="return confirm('Estás seguro que quieres eliminar?')">Eliminar</a>
+              </span>
+              <span>
+                <a class="btn btn-secondary btn-xs" th:href="@{/cliente/ver/} + ${cliente.id}">Ver</a>
+              </span>
             </th>
           </tr>
           </tbody>
