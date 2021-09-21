@@ -36,7 +36,15 @@ public class ClienteDAOImplement implements ClienteDAO{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Cliente findById(Long id) {
         return em.find(Cliente.class, id);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        Cliente cliente = this.findById(id);
+        em.remove(cliente);
     }
 }

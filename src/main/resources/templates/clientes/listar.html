@@ -36,6 +36,10 @@
             <span>
               <a class="btn btn-warning btn-xs" th:href="@{/cliente/form/} + ${cliente.id}">Editar</a>
             </span>
+            <span>
+              <a class="btn btn-danger btn-xs" th:href="@{/cliente/eliminar/} + ${cliente.id}"
+                  onclick="return confirm('Estás seguro que quieres eliminar?')">Eliminar</a>
+            </span>
           </th>
         </tr>
       </tbody>
