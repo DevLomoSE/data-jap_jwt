@@ -14,9 +14,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 
 /**
@@ -30,6 +35,18 @@ public class ClienteController {
 
     @Autowired
     private ClienteService clienteService;
+
+    @GetMapping("/ver/{id}")
+    public String getDetalle(@PathVariable(value="id") Long id, Map<String, Object> model, RedirectAttributes flash){
+        Cliente cliente = clienteService.findById(id);
+        if(cliente == null){
+            flash.addFlashAttribute("error", "Cliente no existe en la BD");
+            return "redirect:/cliente/listado";
+        }
+        model.put("cliente", cliente);
+        model.put("titulo", "Detalle del cliente: " + cliente.getNombre());
+        return "ver";
+    }
 
     @GetMapping("/listado")
     public String list(@RequestParam(name="page", defaultValue="0") int page, Model model){
@@ -58,10 +75,28 @@ public class ClienteController {
 
     @PostMapping("/form")
     public String saveCliente(@Valid Cliente cliente, BindingResult result, Model model,
-                              RedirectAttributes flash, SessionStatus sessionStatus){
+                              @RequestParam("file") MultipartFile foto, RedirectAttributes flash,
+                              SessionStatus sessionStatus){
         if(result.hasErrors()){
             model.addAttribute("titulo", "Crear Cliente");
             return "clientes/form";
+        }
+
+        if(!foto.isEmpty()){
+            Path uploadsDirectory = Paths.get("src/main/resources/static/uploads");
+            String rootPath = uploadsDirectory.toFile().getAbsolutePath();
+            try {
+                byte[] bytes = foto.getBytes();
+                Path fullPath = Paths.get(rootPath + "//" + foto.getOriginalFilename());
+                Files.write(fullPath, bytes);
+                flash.addFlashAttribute("info", " Has subido correctamente '" +
+                                                    foto.getOriginalFilename() +
+                                                    "'");
+                cliente.setFoto(foto.getOriginalFilename());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         String flashMessage = (cliente.getId() != null)
