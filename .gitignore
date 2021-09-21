@@ -33,4 +33,4 @@ build/
 .vscode/
 
 ### uploads directory ###
-./src/main/resources/static/uploads
+/src/main/resources/static/uploads/*
