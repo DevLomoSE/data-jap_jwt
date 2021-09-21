@@ -48,6 +48,8 @@ public class Cliente implements Serializable {
             columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private Date updatedAt;
 
+    private String foto;
+
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
@@ -98,5 +100,13 @@ public class Cliente implements Serializable {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 }
