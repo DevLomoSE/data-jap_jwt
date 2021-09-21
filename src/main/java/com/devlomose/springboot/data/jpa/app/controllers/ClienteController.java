@@ -45,7 +45,7 @@ public class ClienteController {
         }
         model.put("cliente", cliente);
         model.put("titulo", "Detalle del cliente: " + cliente.getNombre());
-        return "ver";
+        return "clientes/detalle";
     }
 
     @GetMapping("/listado")
