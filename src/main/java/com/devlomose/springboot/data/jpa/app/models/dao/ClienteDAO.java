@@ -1,20 +1,13 @@
 package com.devlomose.springboot.data.jpa.app.models.dao;
 
 import com.devlomose.springboot.data.jpa.app.models.entity.Cliente;
-
-import java.util.List;
+import org.springframework.data.repository.CrudRepository;
 
 /**
  * ClienteDAO at: src/main/java/com/devlomose/springboot/data/jpa/app/models/dao
  * Created by @DevLomoSE at 14/9/21 10:38.
  */
-public interface ClienteDAO {
 
-    public List<Cliente> findAll();
+public interface ClienteDAO extends CrudRepository<Cliente, Long> {
 
-    public void save(Cliente cliente);
-
-    public Cliente findById(Long id);
-
-    public void delete(Long id);
 }
