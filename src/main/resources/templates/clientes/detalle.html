@@ -20,6 +20,38 @@
                     <li class="list-group-item" th:text="${cliente.email}"></li>
                     <li class="list-group-item" th:text="${cliente.createdAt}"></li>
                 </ul>
+
+                <div class="alert alert-info mt-4"
+                     th:if="${#lists.isEmpty(cliente.facturas)}"
+                    th:text="'No hay Facturas asignadas para el cliente ' + ${cliente.nombre} + ${cliente.apellido}">
+
+                </div>
+
+                <table th:if="${not #lists.isEmpty(cliente.facturas)}"
+                       class="table table-responsive table-bordered table-striped mt-2">
+                    <thead class="thead-inverse">
+                        <tr>
+                            <th>Folio</th>
+                            <th>Descripcion</th>
+                            <th>Fecha</th>
+                            <th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="factura : ${cliente.facturas}">
+                            <td th:text="${factura.id}"></td>
+                            <td th:text="${factura.descripcion}"></td>
+                            <td th:text="${factura.createdAt}"></td>
+                            <td th:text="${factura.total}"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>Total</td>
+                            <td th:text="${cliente.getFinalTotal()}"></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
