@@ -22,7 +22,9 @@ public class ItemFactura implements Serializable {
     @Column(name = "created_at")
     private Date createdAt;
 
-    //!WIP: agregar relacion con producto
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "producto_id")
+    private Producto producto;
 
     private static final long serialVersionUID = 1L;
 
@@ -47,8 +49,7 @@ public class ItemFactura implements Serializable {
         this.cantidad = cantidad;
     }
 
-    //!WIP: agregar logica matematica para obtener el total
-    public Long calculateImport(){
-        return cantidad.longValue();
+    public Double calculateImport(){
+        return cantidad.doubleValue() * producto.getPrecio();
     }
 }
