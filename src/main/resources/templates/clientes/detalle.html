@@ -9,6 +9,7 @@
         <div class="card bg-light">
             <div class="card-header" th:text="${titulo}"></div>
             <div class="card-body">
+                <p th:text="${cliente.foto}"></p>
                 <img class="img-fluid img-thumbnail mx-auto d-block" style="max-width: 20%;"
                      th:src="@{'/uploads/' + ${cliente.foto}}"
                      th:alt="${cliente.nombre}"
