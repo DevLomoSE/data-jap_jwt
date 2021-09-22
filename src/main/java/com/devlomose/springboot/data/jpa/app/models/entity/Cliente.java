@@ -133,4 +133,13 @@ public class Cliente implements Serializable {
     public void addFactura(Factura factura){
         facturas.add(factura);
     }
+
+    public Double getFinalTotal(){
+        Double total = 0.0;
+        for(int i=0; i<this.facturas.size(); i++){
+            total += this.facturas.get(i).getTotal();
+        }
+
+        return total;
+    }
 }
