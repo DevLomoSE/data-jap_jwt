@@ -10,3 +10,20 @@ INSERT INTO clientes (nombre, apellido, correo, created_at, updated_at, foto) VA
 INSERT INTO clientes (nombre, apellido, correo, created_at, updated_at, foto) VALUES ('Jonathan Cristobal', 'Guzmán Guadarrama', 'jonathan@correo.com', now(), now(), '')
 INSERT INTO clientes (nombre, apellido, correo, created_at, updated_at, foto) VALUES ('José Andres', 'Guzmán', 'jose@correo.com', now(), now(), '')
 INSERT INTO clientes (nombre, apellido, correo, created_at, updated_at, foto) VALUES ('Jonathan Cristobal', 'Guzmán Guadarrama', 'jonathan@correo.com', now(), now(), '')
+
+/* productos */
+INSERT INTO productos (nombre, precio, created_at) VALUES ('teclado mecanico', '1250', now())
+INSERT INTO productos (nombre, precio, created_at) VALUES ('Honda Shadow 750cc', '65250', now())
+INSERT INTO productos (nombre, precio, created_at) VALUES ('Laptop Lenovo Legion Y720', '16500', now())
+INSERT INTO productos (nombre, precio, created_at) VALUES ('Ebook Clean Code & Clean coder', '980', now())
+INSERT INTO productos (nombre, precio, created_at) VALUES ('Cristal templado redmi6', '120', now())
+INSERT INTO productos (nombre, precio, created_at) VALUES ('cafe punta del cielo', '360', now())
+
+/* facturas */
+INSERT INTO facturas (descripcion, observacion, cliente_id, created_at) VALUES ('pack de bienvenida', 'NA', 2, now())
+INSERT INTO facturas_items (cantidad, factura_id, producto_id, created_at) VALUES (2,1,1,now())
+INSERT INTO facturas_items (cantidad, factura_id, producto_id, created_at) VALUES (1,1,4,now())
+INSERT INTO facturas_items (cantidad, factura_id, producto_id, created_at) VALUES (6,1,6,now())
+INSERT INTO facturas_items (cantidad, factura_id, producto_id, created_at) VALUES (1,1,3,now())
+INSERT INTO facturas (descripcion, observacion, cliente_id, created_at) VALUES ('chopper team', 'asingacion de vehiculo', 2, now())
+INSERT INTO facturas_items (cantidad, factura_id, producto_id, created_at) VALUES (1,2,2,now())
