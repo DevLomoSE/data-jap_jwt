@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -116,6 +117,18 @@ public class ClienteController {
 
         if(!foto.isEmpty()){
 
+            if(cliente.getId() != null
+                    && cliente.getId() > 0
+                    && cliente.getFoto() != null
+                    && cliente.getFoto().length() > 0){
+
+                Path rootPath = Paths.get("uploads").resolve(cliente.getFoto()).toAbsolutePath();
+                File file = rootPath.toFile();
+                if(file.exists() && file.canRead()){
+                    file.delete();
+                }
+            }
+
             String uniqueFileName = UUID.randomUUID().toString() + foto.getOriginalFilename();
 
             Path rootPath = Paths.get("uploads").resolve( uniqueFileName );
@@ -170,8 +183,18 @@ public class ClienteController {
     @GetMapping("/eliminar/{id}")
     public String deleteClient(@PathVariable(value="id") Long id, RedirectAttributes flash){
         if(id > 0){
+            Cliente cliente = clienteService.findById(id);
+
             clienteService.delete(id);
             flash.addFlashAttribute("success", "Cliente eliminado exitosamente");
+
+            Path rootPath = Paths.get("uploads").resolve(cliente.getFoto()).toAbsolutePath();
+            File foto = rootPath.toFile();
+            if(foto.exists() && foto.canRead()){
+                if(foto.delete()){
+                    flash.addFlashAttribute("info", "Foto " + cliente.getFoto() + " eliminada exitosamente");
+                }
+            }
         }
         return "redirect:/cliente/listado";
     }
