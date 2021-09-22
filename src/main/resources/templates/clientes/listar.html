@@ -23,6 +23,7 @@
             <th>Apellido</th>
             <th>Email</th>
             <th>Fecha</th>
+            <th>Facturación</th>
             <th>Acciones</th>
           </tr>
           </thead>
@@ -33,6 +34,14 @@
             <th th:text="${cliente.apellido}"></th>
             <th th:text="${cliente.email}"></th>
             <th th:text="${cliente.createdAt}"></th>
+            <th class="text-center">
+              <span>
+                <a class="btn btn-outline-primary btn-xs" th:href="@{/factura/form/} + ${cliente.id}">
+                  Factura
+                  <i class="far fa-file-invoice-dollar"></i>
+                </a>
+              </span>
+            </th>
             <th>
               <span>
                 <a class="btn btn-warning btn-xs" th:href="@{/cliente/form/} + ${cliente.id}">

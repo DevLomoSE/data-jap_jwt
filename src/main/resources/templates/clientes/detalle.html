@@ -9,6 +9,12 @@
         <div class="card bg-light">
             <div class="card-header" th:text="${titulo}"></div>
             <div class="card-body">
+                <h4 class="card-title">
+                    <a th:href="@{/factura/form/} + ${cliente.id}" class="btn btn-outline-secondary btn-xs">
+                        Factura
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </a>
+                </h4>
                 <img class="img-fluid img-thumbnail mx-auto d-block" style="max-width: 20%;"
                      th:src="@{'/cliente/uploads/' + ${cliente.foto}}"
                      th:alt="${cliente.foto}"
