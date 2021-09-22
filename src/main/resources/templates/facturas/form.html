@@ -9,7 +9,12 @@
         <div class="card bg-light">
             <div class="card-header" th:text="${titulo}"></div>
             <div class="card-body">
-                <h4 class="card-title"></h4>
+                <h4 class="card-title">
+                    <a th:href="@{/cliente/ver/} + ${factura.cliente.id}" class="nav-link text-secondary">
+                        <i class="fas fa-arrow-circle-left"></i>
+                        Volver
+                    </a>
+                </h4>
                 <form th:action="@{/factura/form/}" th:object="${factura}" method="post">
                     <div class="form-group row mb-2">
                         <label for="descripcion" class="col-sm-2 col-form-label">
