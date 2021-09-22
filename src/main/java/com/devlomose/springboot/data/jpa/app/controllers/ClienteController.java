@@ -4,11 +4,15 @@ import com.devlomose.springboot.data.jpa.app.models.dao.ClienteDAO;
 import com.devlomose.springboot.data.jpa.app.models.entity.Cliente;
 import com.devlomose.springboot.data.jpa.app.models.service.ClienteService;
 import com.devlomose.springboot.data.jpa.app.util.paginator.PageRender;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,12 +21,15 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * ClienteController at: src/main/java/com/devlomose/springboot/data/jpa/app/controllers
@@ -35,6 +42,21 @@ public class ClienteController {
 
     @Autowired
     private ClienteService clienteService;
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @GetMapping("/uploads/{filename:.+")
+    public ResponseEntity<Resource> getFile(@PathVariable String filename){
+        Path pathPhoto = Paths.get("uploads").resolve(filename).toAbsolutePath();
+
+        /*Resource recurso = null;
+        try {
+            recurso = null;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }*/
+        return null;
+    }
 
     @GetMapping("/ver/{id}")
     public String getDetalle(@PathVariable(value="id") Long id, Map<String, Object> model, RedirectAttributes flash){
@@ -83,16 +105,22 @@ public class ClienteController {
         }
 
         if(!foto.isEmpty()){
-            Path uploadsDirectory = Paths.get("src/main/resources/static/uploads");
-            String rootPath = uploadsDirectory.toFile().getAbsolutePath();
+
+            String uniqueFileName = UUID.randomUUID().toString() + foto.getOriginalFilename();
+
+            Path rootPath = Paths.get("uploads").resolve( uniqueFileName );
+            Path absolutPath = rootPath.toAbsolutePath();
+
+            logger.info("rootPath " + rootPath);
+            logger.info("absolutePath: " + absolutPath);
+
             try {
-                byte[] bytes = foto.getBytes();
-                Path fullPath = Paths.get(rootPath + "//" + foto.getOriginalFilename());
-                Files.write(fullPath, bytes);
+                Files.copy(foto.getInputStream(), absolutPath);
+
                 flash.addFlashAttribute("info", " Has subido correctamente '" +
-                                                    foto.getOriginalFilename() +
+                                                    uniqueFileName +
                                                     "'");
-                cliente.setFoto(foto.getOriginalFilename());
+                cliente.setFoto(uniqueFileName);
 
             } catch (IOException e) {
                 e.printStackTrace();
