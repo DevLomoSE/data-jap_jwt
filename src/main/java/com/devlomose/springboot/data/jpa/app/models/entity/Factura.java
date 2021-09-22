@@ -2,7 +2,9 @@ package com.devlomose.springboot.data.jpa.app.models.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Factura at: src/main/java/com/devlomose/springboot/data/jpa/app/models/entity
@@ -32,7 +34,15 @@ public class Factura implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     private Cliente cliente;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "factura_id")
+    private List<ItemFactura> items;
+
     private static final long serialVersionUID = 1L;
+
+    public Factura() {
+        this.items = new ArrayList<ItemFactura>();
+    }
 
     @PrePersist
     public void prePersist(){
@@ -71,11 +81,31 @@ public class Factura implements Serializable {
         this.createdAt = createdAt;
     }
 
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     public Cliente getCliente() {
         return cliente;
     }
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public List<ItemFactura> getItems() {
+        return items;
+    }
+
+    public void setItems(List<ItemFactura> items) {
+        this.items = items;
+    }
+
+    public void addItemFactura(ItemFactura itemFactura){
+        this.items.add(itemFactura);
     }
 }
