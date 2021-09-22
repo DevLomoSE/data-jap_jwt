@@ -8,7 +8,9 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Cliente at: src/main/java/com/devlomose/springboot/data/jpa/app/models/entity
@@ -49,6 +51,16 @@ public class Cliente implements Serializable {
     private Date updatedAt;
 
     private String foto;
+
+
+    @OneToMany(mappedBy = "cliente",
+               fetch = FetchType.LAZY,
+               cascade = CascadeType.ALL)
+    private List<Factura> facturas;
+
+    public Cliente() {
+        this.facturas = new ArrayList<Factura>();
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -108,5 +120,17 @@ public class Cliente implements Serializable {
 
     public void setFoto(String foto) {
         this.foto = foto;
+    }
+
+    public List<Factura> getFacturas() {
+        return facturas;
+    }
+
+    public void setFacturas(List<Factura> facturas) {
+        this.facturas = facturas;
+    }
+
+    public void addFactura(Factura factura){
+        facturas.add(factura);
     }
 }
