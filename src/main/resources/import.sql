@@ -1,5 +1,5 @@
-INSERT INTO clientes (nombre, apellido, correo, created_at, updated_at, foto) VALUES ('José Andres', 'Guzmán', 'jose@correo.com', now(), now(), '')
-INSERT INTO clientes (nombre, apellido, correo, created_at, updated_at, foto) VALUES ('Jonathan Cristobal', 'Guzmán Guadarrama', 'jonathan@correo.com', now(), now(), '')
+INSERT INTO clientes (nombre, apellido, correo, created_at, updated_at, foto) VALUES ('José Andres', 'Guzmán', 'jose@correo.com', now(), now(), '44a45311-5307-418d-b55f-f794a4e9760eJCGG.png')
+INSERT INTO clientes (nombre, apellido, correo, created_at, updated_at, foto) VALUES ('Jonathan Cristobal', 'Guzmán Guadarrama', 'jonathan@correo.com', now(), now(), '44a45311-5307-418d-b55f-f794a4e9760eJCGG.png')
 INSERT INTO clientes (nombre, apellido, correo, created_at, updated_at, foto) VALUES ('José Andres', 'Guzmán', 'jose@correo.com', now(), now(), '')
 INSERT INTO clientes (nombre, apellido, correo, created_at, updated_at, foto) VALUES ('Jonathan Cristobal', 'Guzmán Guadarrama', 'jonathan@correo.com', now(), now(), '')
 INSERT INTO clientes (nombre, apellido, correo, created_at, updated_at, foto) VALUES ('José Andres', 'Guzmán', 'jose@correo.com', now(), now(), '')
