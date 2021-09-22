@@ -8,10 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +23,6 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -45,17 +46,26 @@ public class ClienteController {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @GetMapping("/uploads/{filename:.+")
+    @GetMapping("/uploads/{filename:.+}")
     public ResponseEntity<Resource> getFile(@PathVariable String filename){
         Path pathPhoto = Paths.get("uploads").resolve(filename).toAbsolutePath();
+        logger.info("pathPhoto" + pathPhoto);
 
-        /*Resource recurso = null;
+        Resource recurso = null;
         try {
-            recurso = null;
+            recurso = new UrlResource(pathPhoto.toUri());
+            if(!recurso.exists() && !recurso.isReadable()){
+                logger.error("Error el recurso "+pathPhoto.toString()+" no existe y/o no se puede leer");
+                throw new RuntimeException("Error: no se puede cargar la imagen "+pathPhoto.toString());
+            }
         } catch (MalformedURLException e) {
             e.printStackTrace();
-        }*/
-        return null;
+        }
+
+        logger.info("recurso a cargar: "+recurso.getFilename());
+        return ResponseEntity.ok()
+                            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+recurso.getFilename()+"\"")
+                            .body(recurso);
     }
 
     @GetMapping("/ver/{id}")
