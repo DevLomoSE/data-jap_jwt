@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
@@ -17,11 +18,16 @@ import java.security.Principal;
 public class LoginController {
 
     @GetMapping("/login")
-    public String login(Model model, Principal principal, RedirectAttributes flash){
+    public String login(@RequestParam(name="error", required = false) String error,
+                        Model model, Principal principal, RedirectAttributes flash){
 
         if(principal != null){
             flash.addFlashAttribute("info", "Ya tiene una sesion activa.");
             return "redirect:/cliente/listado";
+        }
+
+        if(error != null){
+            model.addAttribute("error", "Credenciales incorrectas!");
         }
 
         return "auth/login";
