@@ -45,6 +45,12 @@
           return false;
         }
       });
+
+      $("form").submit(function (){
+        $("#itemsFacturaBody").remove();
+        return;
+      })
+
     });
 
     let itemHelper = {

@@ -1,6 +1,7 @@
 package com.devlomose.springboot.data.jpa.app.models.service;
 
 import com.devlomose.springboot.data.jpa.app.models.entity.Cliente;
+import com.devlomose.springboot.data.jpa.app.models.entity.Factura;
 import com.devlomose.springboot.data.jpa.app.models.entity.Producto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,4 +26,8 @@ public interface ClienteService {
     public void delete(Long id);
 
     public List<Producto> findByName(String nombre);
+
+    public void saveFactura(Factura factura);
+
+    public Producto findProductoById(Long id);
 }

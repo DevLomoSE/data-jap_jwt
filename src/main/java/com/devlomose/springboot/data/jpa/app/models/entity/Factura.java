@@ -120,4 +120,17 @@ public class Factura implements Serializable {
 
         return total;
     }
+
+    @Override
+    public String toString() {
+        return "Factura{" +
+                "id=" + id +
+                ", descripcion='" + descripcion + '\'' +
+                ", observacion='" + observacion + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", cliente=" + cliente +
+                ", items=" + items +
+                '}';
+    }
 }
