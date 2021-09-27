@@ -9,10 +9,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -59,11 +63,25 @@ public class FacturaController {
     }
 
     @PostMapping("/form")
-    public String saveBill(Factura factura,
+    public String saveBill(@Valid Factura factura,
+                           BindingResult result,
+                           Model model,
                            @RequestParam(name="item_id[]", required = false) Long[] itemId,
                            @RequestParam(name="cantidad[]", required = false) Integer[] cantidad,
                            RedirectAttributes flash,
                            SessionStatus status){
+
+         if(result.hasErrors()){
+             model.addAttribute("titulo", "Crear Factura");
+             return "facturas/form";
+         }
+
+         if(itemId == null || itemId.length == 0){
+             model.addAttribute("title", "Crear Factura");
+             model.addAttribute("error", "Error: La factura debe tener elementos relacionados");
+             return "facturas/form";
+         }
+
          for(int i=0; i<itemId.length; i++){
              Producto producto = clienteService.findProductoById(itemId[i]);
 
