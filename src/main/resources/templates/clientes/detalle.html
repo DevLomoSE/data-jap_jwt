@@ -56,6 +56,12 @@
                                         <i class="far fa-eye"></i>
                                     </a>
                                 </span>
+                                <span>
+                                    <a class="btn btn-danger btn-xs" th:href="@{/factura/delete/} + ${factura.id}"
+                                        onclick="return confirm('¿Esta seguro de eliminar la factura?');">
+                                        <i class="far fa-trash-alt"></i>
+                                    </a>
+                                </span>
                             </td>
                         </tr>
                     </tbody>
