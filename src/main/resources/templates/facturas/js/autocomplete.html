@@ -6,7 +6,7 @@
       $("#buscar").autocomplete({
         source: function(request, response){
           $.ajax({
-            url:"/factura/busqueda/productos/" + request.term,
+            url:"/factura/busqueda/productos",
             dataType: "json",
             data: {
               producto: request.term

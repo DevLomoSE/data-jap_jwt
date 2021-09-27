@@ -49,8 +49,8 @@ public class FacturaController {
         return "facturas/form";
     }
 
-    @GetMapping(value = "/busqueda/productos/{term}", produces = {"application/json"})
-    public @ResponseBody List<Producto> loadProducts(@PathVariable String term){
+    @GetMapping(value = "/busqueda/productos", produces = {"application/json"})
+    public @ResponseBody List<Producto> loadProducts(@RequestParam(name = "producto") String term){
         return clienteService.findByName(term);
     }
 
