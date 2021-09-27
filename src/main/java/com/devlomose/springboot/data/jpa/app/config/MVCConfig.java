@@ -1,4 +1,4 @@
-package com.devlomose.springboot.data.jpa.app;
+package com.devlomose.springboot.data.jpa.app.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

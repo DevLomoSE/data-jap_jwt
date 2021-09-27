@@ -70,7 +70,7 @@ public class ClienteController {
         return "clientes/detalle";
     }
 
-    @GetMapping("/listado")
+    @GetMapping({"/listado", "/"})
     public String list(@RequestParam(name="page", defaultValue="0") int page, Model model){
         Pageable pageRequest = PageRequest.of(page, 4);
 
