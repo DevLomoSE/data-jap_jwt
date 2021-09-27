@@ -103,4 +103,21 @@ public class FacturaController {
          return "redirect:/cliente/ver/"+factura.getCliente().getId();
     }
 
+    @GetMapping("/show/{id}")
+    public String showBill(@PathVariable(name="id") Long id,
+                           Model model,
+                           RedirectAttributes flash){
+         Factura factura = clienteService.findFacturaById(id);
+
+         if(factura == null){
+             flash.addFlashAttribute("error", "La factura solicitada no existe en la BD");
+             return "redirect:/cliente/listado";
+         }
+
+         model.addAttribute("factura", factura);
+         model.addAttribute("titulo", "Factura: ".concat(factura.getDescripcion()));
+
+         return "facturas/detalle";
+    }
+
 }

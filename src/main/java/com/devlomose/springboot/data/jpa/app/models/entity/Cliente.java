@@ -142,4 +142,9 @@ public class Cliente implements Serializable {
 
         return total;
     }
+
+    @Override
+    public String toString() {
+        return nombre+" "+apellido;
+    }
 }

@@ -41,6 +41,7 @@
                             <th>Descripcion</th>
                             <th>Fecha</th>
                             <th>Importe</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,15 +50,19 @@
                             <td th:text="${factura.descripcion}"></td>
                             <td th:text="${factura.createdAt}"></td>
                             <td th:text="${factura.total}"></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td>Total</td>
-                            <td th:text="${cliente.getFinalTotal()}"></td>
+                            <td>
+                                <span>
+                                    <a class="btn btn-secondary btn-xs" th:href="@{/factura/show/} + ${factura.id}">
+                                        <i class="far fa-eye"></i>
+                                    </a>
+                                </span>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
+                <h6 class="text-end">
+                    Total: <span th:text="'$'+${cliente.getFinalTotal()}"></span>
+                </h6>
             </div>
         </div>
     </div>
