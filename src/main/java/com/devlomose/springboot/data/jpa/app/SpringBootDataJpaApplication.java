@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 public class SpringBootDataJpaApplication implements CommandLineRunner {
@@ -16,6 +17,9 @@ public class SpringBootDataJpaApplication implements CommandLineRunner {
     @Autowired
     UploadFileServiceImplement uploadFileServiceImplement;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     public static void main(String[] args) {
         SpringApplication.run(SpringBootDataJpaApplication.class, args);
     }
@@ -24,6 +28,16 @@ public class SpringBootDataJpaApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         uploadFileServiceImplement.deleteAll();
         uploadFileServiceImplement.init();
+
+        String password = "password";
+        for(int i=0; i<2; i++){
+            String bcryptPassword = passwordEncoder.encode(password);
+            logger.info("password generado '"+bcryptPassword+"'");
+        }
+
+        password = "sudo";
+        String bcryptPassword = passwordEncoder.encode(password);
+        logger.info("password generado '"+bcryptPassword+"'");
     }
 
 }
