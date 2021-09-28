@@ -14,7 +14,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,9 +27,11 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -74,7 +80,8 @@ public class ClienteController {
 
     @GetMapping({"/listado", "/"})
     public String list(@RequestParam(name="page", defaultValue="0") int page, Model model,
-                       Authentication authentication){
+                       Authentication authentication,
+                       HttpServletRequest httpServletRequest){
 
         if(authentication != null){
             logger.info("Usuario autenticado: ".concat(authentication.getName()));
@@ -84,6 +91,25 @@ public class ClienteController {
 
         if(auth != null){
             logger.info("Usuario autenticado: ".concat(auth.getName()).concat("    <- FORMA ESTATICA"));
+        }
+
+        if(hasRole("ROLE_ADMIN")){
+            logger.info("Usuario ".concat(auth.getName()).concat(" acceso validado"));
+        }else{
+            logger.info("Usuario ".concat(auth.getName()).concat(" acceso no valido"));
+        }
+
+        SecurityContextHolderAwareRequestWrapper securityContext = new SecurityContextHolderAwareRequestWrapper(httpServletRequest, "ROLE_");
+        if(securityContext.isUserInRole("ADMIN")){
+            logger.info("Usuario ".concat(auth.getName()).concat(" acceso validado con securityContext"));
+        }else{
+            logger.info("Usuario ".concat(auth.getName()).concat(" acceso no valido con securityContext"));
+        }
+
+        if(httpServletRequest.isUserInRole("ROLE_ADMIN")){
+            logger.info("Usuario ".concat(auth.getName()).concat(" acceso validado con httpServletRequest"));
+        }else{
+            logger.info("Usuario ".concat(auth.getName()).concat(" acceso no valido con httpServletRequest"));
         }
 
         Pageable pageRequest = PageRequest.of(page, 4);
@@ -186,4 +212,31 @@ public class ClienteController {
         return "redirect:/cliente/listado";
     }
 
+
+    private boolean hasRole(String role){
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+
+        if(securityContext == null){
+            return false;
+        }
+
+        Authentication auth = securityContext.getAuthentication();
+
+        if(auth == null){
+            return false;
+        }
+
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+
+        /*
+        for(GrantedAuthority authority: authorities){
+            if(role.equals(authority.getAuthority())){
+                return true;
+            }
+        }
+        return false;
+        */
+
+        return authorities.contains(new SimpleGrantedAuthority(role));
+    }
 }
