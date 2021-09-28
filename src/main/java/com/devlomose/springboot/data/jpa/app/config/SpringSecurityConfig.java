@@ -1,6 +1,7 @@
 package com.devlomose.springboot.data.jpa.app.config;
 
 import com.devlomose.springboot.data.jpa.app.authHandler.LoginSuccessHandler;
+import com.devlomose.springboot.data.jpa.app.models.service.JPAUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -32,6 +33,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     private DataSource dataSource;
 
     @Autowired
+    private JPAUserDetailService jpaUserDetailService;
+
+    @Autowired
     public void configurerGlobal(AuthenticationManagerBuilder managerBuilder) throws Exception{
         /*
         PasswordEncoder passwordEncoder = this.passwordEncoder;
@@ -42,6 +46,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                         .withUser(userBuilder.username("admin").password("sudo").roles("ADMIN","USER"))
                         .withUser(userBuilder.username("lomo").password("password").roles("USER"));
          */
+        /*
         managerBuilder.jdbcAuthentication()
                         .dataSource(dataSource)
                         .passwordEncoder(passwordEncoder)
@@ -50,6 +55,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                                 "inner join users u " +
                                 "on (r.user_id = u.id)"+
                                 "where u.username = ?");
+
+         */
+        managerBuilder.userDetailsService(jpaUserDetailService)
+                        .passwordEncoder(passwordEncoder);
     }
 
     @Override
