@@ -21,10 +21,10 @@
           <thead class="table-dark">
           <tr>
             <th>Id</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Email</th>
-            <th>Fecha</th>
+            <th th:text="#{text.cliente.nombre}">Nombre</th>
+            <th th:text="#{text.cliente.apellido}">Apellido</th>
+            <th th:text="#{text.cliente.email}">Email</th>
+            <th th:text="#{text.cliente.fecha}">Fecha</th>
             <th sec:authorize="hasRole('ROLE_ADMIN')">Facturación</th>
             <th sec:authorize="hasRole('ROLE_ADMIN')">Acciones</th>
           </tr>
