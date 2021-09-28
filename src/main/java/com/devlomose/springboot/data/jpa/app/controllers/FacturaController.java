@@ -8,6 +8,7 @@ import com.devlomose.springboot.data.jpa.app.models.service.ClienteServiceImplem
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,6 +25,7 @@ import java.util.Map;
  * FacturaController at: src/main/java/com/devlomose/springboot/data/jpa/app/controllers
  * Created by @DevLomoSE at 22/9/21 12:01.
  */
+@Secured("ROLE_ADMIN")
 @Controller
 @RequestMapping("/factura")
 @SessionAttributes("factura")
@@ -34,7 +36,7 @@ public class FacturaController {
     @Autowired
     private ClienteServiceImplement clienteService;
 
-     @GetMapping("/form/{IdCliente}")
+    @GetMapping("/form/{IdCliente}")
     public String create(@PathVariable(value="IdCliente") Long IdCliente,
                          Map<String, Object> model,
                          RedirectAttributes flash/*,

@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -51,6 +52,7 @@ public class ClienteController {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping("/uploads/{filename:.+}")
     public ResponseEntity<Resource> getFile(@PathVariable String filename){
 
@@ -66,6 +68,7 @@ public class ClienteController {
                             .body(recurso);
     }
 
+    @Secured({"ROLE_USER"})
     @GetMapping("/ver/{id}")
     public String getDetalle(@PathVariable(value="id") Long id, Map<String, Object> model, RedirectAttributes flash){
         Cliente cliente = clienteService.findById(id);
@@ -124,6 +127,7 @@ public class ClienteController {
         return "clientes/listar";
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping("/form")
     public String createForm(Map<String, Object> model){
         Cliente cliente = new Cliente();
@@ -135,6 +139,7 @@ public class ClienteController {
 
     }
 
+    @Secured("ROLE_ADMIN")
     @PostMapping("/form")
     public String saveCliente(@Valid Cliente cliente, BindingResult result, Model model,
                               @RequestParam("file") MultipartFile foto, RedirectAttributes flash,
@@ -177,6 +182,7 @@ public class ClienteController {
         return "redirect:/cliente/listado";
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping("/form/{id}")
     public String editClient(@PathVariable(value="id") Long id, Map<String, Object> model,
                             RedirectAttributes flash){
@@ -197,6 +203,7 @@ public class ClienteController {
         return "clientes/form";
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping("/eliminar/{id}")
     public String deleteClient(@PathVariable(value="id") Long id, RedirectAttributes flash){
         if(id > 0){

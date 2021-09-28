@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * SpringSecurityConfig at: src/main/java/com/devlomose/springboot/data/jpa/app/config
  * Created by @DevLomoSE at 27/9/21 17:04.
  */
+@EnableGlobalMethodSecurity(securedEnabled = true)
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -43,11 +45,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/", "/css/**", "/js/**", "/uploads/**", "/cliente/listado").permitAll()
-                .antMatchers("/cliente/ver/**").hasAnyRole("USER")
-                .antMatchers("/cliente/uploads/**").hasAnyRole("USER")
-                .antMatchers("/cliente/form/**").hasAnyRole("ADMIN")
-                .antMatchers("/cliente/eliminar/**").hasAnyRole("ADMIN")
-                .antMatchers("/factura/**").hasAnyRole("ADMIN")
+                /*.antMatchers("/cliente/ver/**").hasAnyRole("USER")*/
+                /*.antMatchers("/cliente/uploads/**").hasAnyRole("USER")*/
+                /*.antMatchers("/cliente/form/**").hasAnyRole("ADMIN")*/
+                /*.antMatchers("/cliente/eliminar/**").hasAnyRole("ADMIN")*/
+                /*.antMatchers("/factura/**").hasAnyRole("ADMIN")*/
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().successHandler(successHandler).loginPage("/auth/login").permitAll()
