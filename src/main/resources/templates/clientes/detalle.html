@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:insert="layout/head :: head">
 </head>
 <body>
@@ -10,7 +11,8 @@
             <div class="card-header" th:text="${titulo}"></div>
             <div class="card-body">
                 <h4 class="card-title">
-                    <a th:href="@{/factura/form/} + ${cliente.id}" class="btn btn-outline-secondary btn-xs">
+                    <a th:href="@{/factura/form/} + ${cliente.id}" class="btn btn-outline-secondary btn-xs"
+                       sec:authorize="hasRole('ROLE_ADMIN')">
                         Factura
                         <i class="fas fa-file-invoice-dollar"></i>
                     </a>
@@ -41,7 +43,7 @@
                             <th>Descripcion</th>
                             <th>Fecha</th>
                             <th>Importe</th>
-                            <th></th>
+                            <th sec:authorize="hasRole('ROLE_ADMIN')"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,7 +52,7 @@
                             <td th:text="${factura.descripcion}"></td>
                             <td th:text="${factura.createdAt}"></td>
                             <td th:text="${factura.total}"></td>
-                            <td>
+                            <td sec:authorize="hasRole('ROLE_ADMIN')">
                                 <span>
                                     <a class="btn btn-secondary btn-xs" th:href="@{/factura/show/} + ${factura.id}">
                                         <i class="far fa-eye"></i>

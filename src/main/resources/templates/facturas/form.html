@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:insert="/layout/head :: head">
 </head>
 <body>
@@ -81,7 +82,7 @@
                         </span>
                     </h5>
 
-                    <div class="d-md-flex justify-content-md-end">
+                    <div class="d-md-flex justify-content-md-end" sec:authorize="hasRole('ROLE_ADMIN')">
                         <div class="col-sm-5">
                             <button type="submit" th:value="${titulo}" class="btn btn-success mt-">
                                 Guardar

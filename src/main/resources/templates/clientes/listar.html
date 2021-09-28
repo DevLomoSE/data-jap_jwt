@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:insert="layout/head :: head">
 </head>
 <body>
@@ -11,7 +12,8 @@
         <h1 class="h1 text-secondary text-center" th:text="${titulo}">titulo</h1>
       </div>
       <div class="card-body">
-        <a class="card-title btn btn-primary btn-xs" th:href="@{/cliente/form}">
+        <a class="card-title btn btn-primary btn-xs" th:href="@{/cliente/form}"
+            sec:authorize="hasRole('ROLE_ADMIN')">
           Crear
           <i class="fas fa-user-plus"></i>
         </a>
@@ -23,8 +25,8 @@
             <th>Apellido</th>
             <th>Email</th>
             <th>Fecha</th>
-            <th>Facturación</th>
-            <th>Acciones</th>
+            <th sec:authorize="hasRole('ROLE_ADMIN')">Facturación</th>
+            <th sec:authorize="hasRole('ROLE_ADMIN')">Acciones</th>
           </tr>
           </thead>
           <tbody>
@@ -34,7 +36,7 @@
             <th th:text="${cliente.apellido}"></th>
             <th th:text="${cliente.email}"></th>
             <th th:text="${cliente.createdAt}"></th>
-            <th class="text-center">
+            <th class="text-center" sec:authorize="hasRole('ROLE_ADMIN')">
               <span>
                 <a class="btn btn-outline-primary btn-xs" th:href="@{/factura/form/} + ${cliente.id}">
                   Factura
@@ -42,7 +44,7 @@
                 </a>
               </span>
             </th>
-            <th>
+            <th sec:authorize="hasRole('ROLE_ADMIN')">
               <span>
                 <a class="btn btn-warning btn-xs" th:href="@{/cliente/form/} + ${cliente.id}">
                   <i class="far fa-edit"></i>
