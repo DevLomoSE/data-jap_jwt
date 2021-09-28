@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="layout/head :: head">
+</head>
+<body>
+  <div th:insert="layout/navbar :: navbar" class="mb-2"/>
+
+  <div class="mt-2 mb-2 container">
+    <div class="card bg-danger">
+      <div class="card-header">
+        <h1 class="h1 text-white text-center">Acceso Denegado</h1>
+      </div>
+      <div class="card-body">
+        <h4 class="card-title">
+          <a th:href="@{/}" class="nav-link text-white">
+            <i class="fas fa-arrow-circle-left"></i>
+            Volver
+          </a>
+        </h4>
+        Lo sentimos <span th:text="${#httpServletRequest.remoteUser}"></span>, el acceso a esta página está restringido.
+      </div>
+    </div>
+  </div>
+
+  <div th:insert="layout/footer :: footer"></div>
+</body>
+</html>
