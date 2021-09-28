@@ -1,5 +1,6 @@
 package com.devlomose.springboot.data.jpa.app.config;
 
+import com.devlomose.springboot.data.jpa.app.authHandler.LoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private LoginSuccessHandler successHandler;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
@@ -46,8 +50,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/factura/**").hasAnyRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/auth/login").permitAll()
+                .formLogin().successHandler(successHandler).loginPage("/auth/login").permitAll()
                 .and()
-                .logout().permitAll();
+                .logout().permitAll()
+                .and()
+                .exceptionHandling().accessDeniedPage("/error/403");
     }
 }
