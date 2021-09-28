@@ -7,6 +7,7 @@ import com.devlomose.springboot.data.jpa.app.util.paginator.PageRender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,6 +34,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Collection;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -51,6 +53,9 @@ public class ClienteController {
     private UploadFileService uploadFileService;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    private MessageSource messageSource;
 
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping("/uploads/{filename:.+}")
@@ -84,7 +89,8 @@ public class ClienteController {
     @GetMapping({"/listado", "/"})
     public String list(@RequestParam(name="page", defaultValue="0") int page, Model model,
                        Authentication authentication,
-                       HttpServletRequest httpServletRequest){
+                       HttpServletRequest httpServletRequest,
+                       Locale locale){
 
         if(authentication != null){
             logger.info("Usuario autenticado: ".concat(authentication.getName()));
@@ -121,7 +127,7 @@ public class ClienteController {
 
         PageRender<Cliente> pageRender = new PageRender<>("/cliente/listado", clientes);
 
-        model.addAttribute("titulo", "Listado Cliente");
+        model.addAttribute("titulo", messageSource.getMessage("text.cliente.listado.titulo",null, locale));
         model.addAttribute("clientes", clientes);
         model.addAttribute("page", pageRender);
         return "clientes/listar";
