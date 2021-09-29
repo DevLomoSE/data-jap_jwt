@@ -1,5 +1,7 @@
 package com.devlomose.springboot.data.jpa.app.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -24,6 +26,7 @@ public class ItemFactura implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Producto producto;
 
     private static final long serialVersionUID = 1L;

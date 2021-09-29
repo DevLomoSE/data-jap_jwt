@@ -1,5 +1,8 @@
 package com.devlomose.springboot.data.jpa.app.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -42,12 +45,14 @@ public class Cliente implements Serializable {
     @Column(name="created_at",
             nullable = false)
     @DateTimeFormat(pattern = "yyyy-mm-dd")
+    @JsonFormat(pattern = "yyyy-mm-dd HH:mm:ss")
     private Date createdAt;
 
     @Temporal(TemporalType.DATE)
     @Column(name="updated_at",
             updatable = true,
             columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    @JsonFormat(pattern = "yyyy-mm-dd HH:mm:ss")
     private Date updatedAt;
 
     private String foto;
@@ -56,6 +61,7 @@ public class Cliente implements Serializable {
     @OneToMany(mappedBy = "cliente",
                fetch = FetchType.LAZY,
                cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Factura> facturas;
 
     public Cliente() {
