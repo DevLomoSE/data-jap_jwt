@@ -4,6 +4,7 @@ import com.devlomose.springboot.data.jpa.app.models.entity.Cliente;
 import com.devlomose.springboot.data.jpa.app.models.service.ClienteService;
 import com.devlomose.springboot.data.jpa.app.models.service.UploadFileService;
 import com.devlomose.springboot.data.jpa.app.util.paginator.PageRender;
+import com.devlomose.springboot.data.jpa.app.view.xml.ClienteList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -131,6 +133,12 @@ public class ClienteController {
         model.addAttribute("clientes", clientes);
         model.addAttribute("page", pageRender);
         return "clientes/listar";
+    }
+
+    @GetMapping("/listado-rest")
+    @ResponseBody
+    public ClienteList listREST(){
+        return new ClienteList(clienteService.findAll());
     }
 
     @Secured("ROLE_ADMIN")
