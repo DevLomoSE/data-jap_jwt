@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.sql.DataSource;
@@ -62,18 +63,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/", "/css/**", "/js/**", "/uploads/**", "/cliente/listado", "/locale", "/api/**").permitAll()
-                /*.antMatchers("/cliente/ver/**").hasAnyRole("USER")*/
-                /*.antMatchers("/cliente/uploads/**").hasAnyRole("USER")*/
-                /*.antMatchers("/cliente/form/**").hasAnyRole("ADMIN")*/
-                /*.antMatchers("/cliente/eliminar/**").hasAnyRole("ADMIN")*/
-                /*.antMatchers("/factura/**").hasAnyRole("ADMIN")*/
+                .antMatchers("/", "/css/**", "/js/**", "/uploads/**", "/cliente/listado", "/locale").permitAll()
                 .anyRequest().authenticated()
-                .and()
+                /*.and()
                 .formLogin().successHandler(successHandler).loginPage("/auth/login").permitAll()
                 .and()
                 .logout().permitAll()
                 .and()
-                .exceptionHandling().accessDeniedPage("/error/403");
+                .exceptionHandling().accessDeniedPage("/error/403")*/
+                .and().csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 }
