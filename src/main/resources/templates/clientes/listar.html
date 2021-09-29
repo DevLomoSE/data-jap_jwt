@@ -12,11 +12,17 @@
         <h1 class="h1 text-secondary text-center" th:text="${titulo}">titulo</h1>
       </div>
       <div class="card-body">
-        <a class="card-title btn btn-primary btn-xs" th:href="@{/cliente/form}"
-            sec:authorize="hasRole('ROLE_ADMIN')">
-          Crear
-          <i class="fas fa-user-plus"></i>
-        </a>
+        <h4 class="card-title">
+          <a class="btn btn-primary btn-xs" th:href="@{/cliente/form}"
+             sec:authorize="hasRole('ROLE_ADMIN')">
+            Crear
+            <i class="fas fa-user-plus"></i>
+          </a>
+          <a th:href="@{'/cliente/listado/'(format=csv)}" class="btn btn-xs btn-outline-primary text-end">
+            CSV
+            <i class="fas fa-file-csv"></i>
+          </a>
+        </h4>
         <table class="mt-2 table table-bordered table-striped table-hover">
           <thead class="table-dark">
           <tr>
