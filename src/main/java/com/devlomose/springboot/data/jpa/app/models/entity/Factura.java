@@ -2,6 +2,7 @@ package com.devlomose.springboot.data.jpa.app.models.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -92,6 +93,7 @@ public class Factura implements Serializable {
         this.updatedAt = updatedAt;
     }
 
+    @XmlTransient
     public Cliente getCliente() {
         return cliente;
     }
