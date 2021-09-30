@@ -3,6 +3,7 @@ package com.devlomose.springboot.data.jpa.app.controllers.rest;
 import com.devlomose.springboot.data.jpa.app.models.service.ClienteService;
 import com.devlomose.springboot.data.jpa.app.view.xml.ClienteList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,6 +21,7 @@ public class ClienteRestController {
     private ClienteService clienteService;
 
     @GetMapping("/listado")
+    @Secured("ROLE_ADMIN")
     public ClienteList list(){
         return new ClienteList(clienteService.findAll());
     }

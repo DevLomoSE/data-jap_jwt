@@ -1,7 +1,9 @@
 package com.devlomose.springboot.data.jpa.app.config;
 
 import com.devlomose.springboot.data.jpa.app.auth.filter.JWTAuthenticationFilter;
+import com.devlomose.springboot.data.jpa.app.auth.filter.JWTAuthorizationFilter;
 import com.devlomose.springboot.data.jpa.app.auth.handler.LoginSuccessHandler;
+import com.devlomose.springboot.data.jpa.app.auth.service.JWTService;
 import com.devlomose.springboot.data.jpa.app.models.service.JPAUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +35,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private JPAUserDetailService jpaUserDetailService;
+
+    @Autowired
+    private JWTService jwtService;
 
     @Autowired
     public void configurerGlobal(AuthenticationManagerBuilder managerBuilder) throws Exception{
@@ -73,7 +78,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling().accessDeniedPage("/error/403")*/
                 .and()
-                    .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+                    .addFilter(new JWTAuthenticationFilter(authenticationManager(),jwtService))
+                    .addFilter(new JWTAuthorizationFilter(authenticationManager(),jwtService))
                     .csrf().disable()
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }

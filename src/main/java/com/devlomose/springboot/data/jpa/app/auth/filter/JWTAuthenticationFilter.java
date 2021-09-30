@@ -1,31 +1,20 @@
 package com.devlomose.springboot.data.jpa.app.auth.filter;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
+import com.devlomose.springboot.data.jpa.app.auth.service.JWTService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import javax.crypto.SecretKey;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.security.Key;
-import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,9 +26,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     private AuthenticationManager authenticationManager;
 
-    public static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    private JWTService jwtService;
 
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTService jwtService) {
+        this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
         setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/api/auth/login", "POST"));
     }
@@ -84,22 +74,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
 
-        String username = ((User) authResult.getPrincipal()).getUsername();
-
-        SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
-
-        Collection<? extends GrantedAuthority> authorities = authResult.getAuthorities();
-        Claims claims = Jwts.claims();
-
-        claims.put("authorities", new ObjectMapper().writeValueAsString(authorities));
-
-        String token = Jwts.builder()
-                            .setClaims(claims)
-                            .setSubject( username )
-                            .signWith(SECRET_KEY)
-                            .setIssuedAt(new Date())
-                            .setExpiration(new Date(System.currentTimeMillis() + 1800000))
-                            .compact();
+        String token = jwtService.create(authResult);
 
         logger.info("generated token: "+token);
         response.addHeader("Authorization", "Bearer " + token);
@@ -107,7 +82,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("token", token);
         body.put("user", (User) authResult.getPrincipal());
-        body.put("message", String.format("%s, Sesión iniciada con éxito", username));
+        body.put("message", String.format("%s, Sesión iniciada con éxito", authResult.getName()));
 
         response.getWriter().write(new ObjectMapper().writeValueAsString(body));
         response.setStatus(200);
