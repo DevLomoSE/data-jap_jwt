@@ -1,6 +1,7 @@
 package com.devlomose.springboot.data.jpa.app.config;
 
-import com.devlomose.springboot.data.jpa.app.handler.LoginSuccessHandler;
+import com.devlomose.springboot.data.jpa.app.auth.filter.JWTAuthenticationFilter;
+import com.devlomose.springboot.data.jpa.app.auth.handler.LoginSuccessHandler;
 import com.devlomose.springboot.data.jpa.app.models.service.JPAUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -71,7 +72,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().permitAll()
                 .and()
                 .exceptionHandling().accessDeniedPage("/error/403")*/
-                .and().csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .and()
+                    .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+                    .csrf().disable()
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 }
